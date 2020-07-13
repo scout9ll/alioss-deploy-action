@@ -5,6 +5,12 @@ inputs:
   # myInput:              # change this
   #   description: 'input description here'
   #   default: 'default value if applicable'
+  staticPath:
+    description: 'input description here'
+    default: 'default value if applicable'
+  deployPath:
+    description: 'input description here'
+    default: 'default value if applicable'
   region:
     description: 'input description here'
     default: 'default value if applicable'
