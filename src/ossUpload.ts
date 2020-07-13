@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 import client from './ossClient'
 
 export async function deployToOss(src: string, dist: string): Promise<any[]> {

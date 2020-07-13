@@ -20,4 +20,9 @@ jobs:
     - uses: actions/checkout@v1
     - uses: ./
       with: 
-        milliseconds: 1000
+        staticPath: ./node_modules/chardet
+        deployPath: test_for_action
+        region: ${{ secrets.region }}
+        bucket: ${{ secrets.bucket }}
+        accessKeyId: ${{ secrets.accessKeyId }}
+        accessKeySecret: ${{ secrets.accessKeySecret }}
