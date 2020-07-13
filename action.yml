@@ -1,8 +1,20 @@
 name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+description: 'Deploy Static Website to ali-oss'
+author: 'steve911'
 inputs:
-  myInput:              # change this
+  # myInput:              # change this
+  #   description: 'input description here'
+  #   default: 'default value if applicable'
+  region:
+    description: 'input description here'
+    default: 'default value if applicable'
+  bucket:
+    description: 'input description here'
+    default: 'default value if applicable'
+  accessKeyId: 
+    description: 'input description here'
+    default: 'default value if applicable'
+  accessKeySecret:
     description: 'input description here'
     default: 'default value if applicable'
 runs:
