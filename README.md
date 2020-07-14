@@ -1,101 +1,113 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# Ali-OSS Deploy
 
-# Create a JavaScript Action using TypeScript
+This is a simple GitHub Action to deploy a static website to ali-oss.
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
+## Usage
 
-This template includes compilication support, tests, a validation workflow, publishing, and versioning guidance.  
+To use a GitHub action you can just reference it on your Workflow file
+(for more info check [this article by Github](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/configuring-a-workflow))
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+<!-- > Important: this action will execute `npm i` and `npm run build`. Please open an issue if another command is needed -->
 
-## Create an action from this template
+```yml
+name: 'My Workflow'
 
-Click the `Use this Template` and provide the new repo details for your action
+on:
+  release:
+    types: [published]
 
-## Code in Master
-
-Install the dependencies  
-```bash
-$ npm install
+jobs:
+  deploy:
+    name: 'Deploy to ali-oss'
+    steps:
+      - uses: steve9II/alioss-deploy-action
+        with:
+          staticPath: your local static path
+          deployPath: your expected ali-oss path
+          region: ${{ secrets.region }}
+          bucket: ${{ secrets.bucket }}
+          accessKeyId: ${{ secrets.accessKeyId }}
+          accessKeySecret: ${{ secrets.accessKeySecret }}
 ```
 
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run pack
+### Inputs
+
+As most GitHub actions, this action requires and uses some inputs, that you define in
+your workflow file.
+
+The inputs this action uses are:
+
+> we should not write sensitive information into action file ,please store these in github ([how to create secret in github](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets))
+
+| Name | Required | Default | Description |
+|:----:|:--------:|:-------:|:-----------:|
+| `accessKeyId` | `true` | N/A |your ali-oss accessKeyId([create here](https://usercenter.console.aliyun.com/#/manage/ak))|
+| `accessKeySecret` | `true` | N/A | your ali-oss accessKeySecret| 
+| `region` | `true` |  N/A  | your oss region|
+| `bucket` | `true` |  N/A | your bucket|
+| `staticPath` | `true` | N/A | your local static files path |
+| `deployPath` | `true` | N/A | your expected ali-oss deploy directory|
+
+
+## Example
+
+### Deploy to production on release
+
+> You can setup repo secrets to use in your workflows
+
+```yml
+name: 'ali-oss Deploy'
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v1
+    # file paths to consider in the event. Optional; defaults to all.
+    paths:
+      - 'public/*'
+
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: steve9II/alioss-deploy-action
+        with:
+          staticPath: your local static path
+          deployPath: your expected ali-oss path
+          region: ${{ secrets.region }}
+          bucket: ${{ secrets.bucket }}
+          accessKeyId: ${{ secrets.accessKeyId }}
+          accessKeySecret: ${{ secrets.accessKeySecret }}
 ```
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
+### Preview Deploy on pull request
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
+```yml
+name: 'ali-oss Preview Deploy'
 
-...
+on:
+  pull_request:
+    types: ['opened', 'edited', 'synchronize']
+
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: steve9II/alioss-deploy-action
+        with:
+          staticPath: your local static path
+          deployPath: your expected ali-oss path
+          region: ${{ secrets.region }}
+          bucket: ${{ secrets.bucket }}
+          accessKeyId: ${{ secrets.accessKeyId }}
+          accessKeySecret: ${{ secrets.accessKeySecret }}
+
 ```
-
-## Change action.yml
-
-The action.yml contains defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run pack
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml)])
-
-```yaml
-uses: ./
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
-
-## Usage:
-
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
