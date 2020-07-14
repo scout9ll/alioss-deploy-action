@@ -9,9 +9,9 @@ on: # rebuild any PRs and main branch changes
 jobs:
   ci:
     runs-on: ubuntu-latest
-    steps:
+    steps: # every '-' is a step,every step should only have one of `uses` and `run`  
+    - uses: actions/checkout@v1
     - name: build # make sure build/ci work properly
-      uses: actions/checkout@v1
       run: |
         npm install
         npm run all
