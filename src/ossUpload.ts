@@ -24,7 +24,9 @@ async function putOSS(fileKey, localfile): Promise<string> {
   try {
     tryTime++
     const result = await client.put(fileKey, localfile)
-    core.info(`${new Date()}>>${fileKey} uploaded`)
+    core.info(
+      `${new Date().toLocaleString()}>>>${fileKey} uploaded successfully`
+    )
     return result
   } catch (err) {
     if (tryTime === 3) {
