@@ -7,7 +7,7 @@ export async function deployToOss(src: string, dist: string): Promise<any[]> {
     const _src = `${src}/${doc}`,
       _dist = `${dist}/${doc}`
     const st = fs.statSync(_src)
-    if (st.isFile()) return putOSS(_src, _dist)
+    if (st.isFile()) return putOSS(_dist, _src)
     return deployToOss(_src, _dist)
   })
   return Promise.all(fileMap)
