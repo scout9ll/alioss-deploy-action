@@ -7,15 +7,16 @@ on: # rebuild any PRs and main branch changes
       - 'releases/*'
 
 jobs:
-  build: # make sure build/ci work properly
+  ci:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: |
+    - name: build # make sure build/ci work properly
+      uses: actions/checkout@v1
+      run: |
         npm install
         npm run all
-  test: # make sure this action depoly successfully
-    - uses: ./
+    - name: test # make sure this action depoly successfully
+      uses: ./
       with: 
         staticPath: ./node_modules/chardet
         deployPath: test_for_action
@@ -23,8 +24,8 @@ jobs:
         bucket: ${{ secrets.bucket }}
         accessKeyId: ${{ secrets.accessKeyId }}
         accessKeySecret: ${{ secrets.accessKeySecret }}
-  publish: 
-    - run: |
+    - name: publish
+      run: |
         git add .
         git commit -m 'publish $GITHUB_RUN_ID'
         git push 
