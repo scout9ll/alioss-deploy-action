@@ -1,4 +1,4 @@
-name: "build-test"
+name: "build-test-publish"
 on: # rebuild any PRs and main branch changes
   pull_request:
   push:
@@ -14,7 +14,7 @@ jobs:
     - run: |
         npm install
         npm run all
-
+  test: # make sure this action depoly successfully
     - uses: ./
       with: 
         staticPath: ./node_modules/chardet
@@ -23,3 +23,8 @@ jobs:
         bucket: ${{ secrets.bucket }}
         accessKeyId: ${{ secrets.accessKeyId }}
         accessKeySecret: ${{ secrets.accessKeySecret }}
+  publish: 
+    - run: |
+        git add .
+        git commit -m 'publish $GITHUB_RUN_ID'
+        git push 
