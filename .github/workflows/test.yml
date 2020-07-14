@@ -24,8 +24,5 @@ jobs:
         bucket: ${{ secrets.bucket }}
         accessKeyId: ${{ secrets.accessKeyId }}
         accessKeySecret: ${{ secrets.accessKeySecret }}
-    - name: publish
-      run: |
-        git add .
-        git commit -m 'publish $GITHUB_RUN_ID'
-        git push 
+    # - name: create pr for publish
+    #   uses: peter-evans/create-pull-request@v2

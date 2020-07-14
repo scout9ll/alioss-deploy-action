@@ -1,5 +1,6 @@
 import fs from 'fs'
 import client from './ossClient'
+import * as core from '@actions/core'
 
 export async function deployToOss(src: string, dist: string): Promise<any[]> {
   const docs = fs.readdirSync(src)
@@ -23,6 +24,7 @@ async function putOSS(fileKey, localfile): Promise<string> {
   try {
     tryTime++
     const result = await client.put(fileKey, localfile)
+    core.info(`${new Date()}>>${fileKey} uploaded`)
     return result
   } catch (err) {
     if (tryTime === 3) {
