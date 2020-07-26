@@ -1,5 +1,8 @@
 name: 'alioss-deploy-action'
 description: 'Deploy Static Website to ali-oss'
+branding:
+  icon: 'align-left'
+  color: 'orange'
 author: 'steve911'
 inputs:
   staticPath:
