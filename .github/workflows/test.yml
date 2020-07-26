@@ -24,5 +24,13 @@ jobs:
         bucket: ${{ secrets.bucket }}
         accessKeyId: ${{ secrets.accessKeyId }}
         accessKeySecret: ${{ secrets.accessKeySecret }}
-    # - name: create pr for publish
-    #   uses: peter-evans/create-pull-request@v2
+    # - name: create commit for publish
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v4
+      with:
+        author_name: Your Name
+        author_email: mail@example.com
+        message: "Your commit message"
+        add: "."
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
