@@ -1,28 +1,31 @@
-name: 'Your name here'
+name: 'alioss-deploy-action'
 description: 'Deploy Static Website to ali-oss'
 author: 'steve911'
 inputs:
-  # myInput:              # change this
-  #   description: 'input description here'
-  #   default: 'default value if applicable'
   staticPath:
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'your local static path'
+    required: true
+    default: ''
   deployPath:
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'your expected ali-oss path'
+    required: true
+    default: ''
   region:
     description: 'input description here'
-    default: 'default value if applicable'
+    required: true
+    default: ''
   bucket:
     description: 'input description here'
-    default: 'default value if applicable'
+    required: true
+    default: ''
   accessKeyId: 
     description: 'input description here'
-    default: 'default value if applicable'
+    required: true
+    default: ''
   accessKeySecret:
     description: 'input description here'
-    default: 'default value if applicable'
+    required: true
+    default: ''
 runs:
   using: 'node12'
   main: 'dist/index.js'
