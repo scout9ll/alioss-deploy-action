@@ -2,14 +2,14 @@ import fs from 'fs'
 import client from './ossClient'
 import * as core from '@actions/core'
 
-export async function deployToOss(src: string, dist: string): Promise<any[]> {
-  const docs = fs.readdirSync(src)
+export async function deployToOss(localDir: string, deployDir: string): Promise<any[]> {
+  const docs = fs.readdirSync(localDir)
   const fileMap = docs.map(async function(doc) {
-    const _src = `${src}/${doc}`,
-      _dist = `${dist}/${doc}`
-    const st = fs.statSync(_src)
-    if (st.isFile()) return putOSS(_dist, _src)
-    return deployToOss(_src, _dist)
+    const _localDir = `${localDir}/${doc}`,
+      _deployDir = `${deployDir}/${doc}`
+    const st = fs.statSync(_localDir)
+    if (st.isFile()) return putOSS(_deployDir, _localDir)
+    return deployToOss(_localDir, _deployDir)
   })
   return Promise.all(fileMap)
 }

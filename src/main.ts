@@ -3,12 +3,19 @@ import {deployToOss} from './ossUpload'
 
 async function run(): Promise<void> {
   try {
-    const staticPath = core.getInput('staticPath')
-    const deployPath = core.getInput('deployPath')
+    const multiDirs = JSON.parse(core.getInput('dirMap'))
+    // const deployDir = core.getInput('deployDir')
     core.debug(new Date().toTimeString())
-    await deployToOss(staticPath, deployPath)
+    const deployTasks = Object.entries(multiDirs).map(
+      ([localDir, deployDir]) => {
+        if (typeof deployDir !== 'string') {
+          return core.error(`${localDir}'s deployDir must be a string`)
+        }
+        deployToOss(localDir, deployDir)
+      }
+    )
+    await Promise.all(deployTasks)
     core.debug(new Date().toTimeString())
-
     core.setOutput('time', new Date().toTimeString())
   } catch (error) {
     core.setFailed(error.message)

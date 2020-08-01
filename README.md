@@ -22,8 +22,7 @@ jobs:
     steps:
       - uses: steve9II/alioss-deploy-action
         with:
-          staticPath: your local static path
-          deployPath: your expected ali-oss path
+          dirMap: Mapping between local directory and deployment directory
           region: ${{ secrets.region }}
           bucket: ${{ secrets.bucket }}
           accessKeyId: ${{ secrets.accessKeyId }}
@@ -45,8 +44,8 @@ The inputs this action uses are:
 | `accessKeySecret` | `true` | N/A | your ali-oss accessKeySecret| 
 | `region` | `true` |  N/A  | your oss region|
 | `bucket` | `true` |  N/A | your bucket|
-| `staticPath` | `true` | N/A | your local static files path |
-| `deployPath` | `true` | N/A | your expected ali-oss deploy directory|
+| `localDir` | `true` | N/A | your local static files path |
+| `deployDir` | `true` | N/A | your expected ali-oss deploy directory|
 
 
 ## Example
@@ -77,8 +76,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: steve9II/alioss-deploy-action
         with:
-          staticPath: your local static path
-          deployPath: your expected ali-oss path
+          localDir: your local static path
+          deployDir: your expected ali-oss path
           region: ${{ secrets.region }}
           bucket: ${{ secrets.bucket }}
           accessKeyId: ${{ secrets.accessKeyId }}
@@ -103,8 +102,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: steve9II/alioss-deploy-action
         with:
-          staticPath: your local static path
-          deployPath: your expected ali-oss path
+          localDir: your local static path
+          deployDir: your expected ali-oss path
           region: ${{ secrets.region }}
           bucket: ${{ secrets.bucket }}
           accessKeyId: ${{ secrets.accessKeyId }}

@@ -5,12 +5,8 @@ branding:
   color: 'orange'
 author: 'steve911'
 inputs:
-  staticPath:
-    description: 'your local static path'
-    required: true
-    default: ''
-  deployPath:
-    description: 'your expected ali-oss path'
+  dirMap:
+    description: 'Mapping between local directory and deployment directory'
     required: true
     default: ''
   region:
